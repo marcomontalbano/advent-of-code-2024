@@ -10,7 +10,7 @@ const txtInput = Deno.readTextFileSync(
   new URL("input.txt", import.meta.url),
 );
 
-describe("Day 2", () => {
+describe("Day 2: Red-Nosed Reports", () => {
   test("toReports", () => {
     expect(parseReports(txtExample)).toEqual([
       [7, 6, 4, 2, 1],

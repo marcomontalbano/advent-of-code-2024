@@ -10,7 +10,7 @@ const txtInput = Deno.readTextFileSync(
   new URL("input.txt", import.meta.url),
 );
 
-describe("Day 1", () => {
+describe("Day 1: Historian Hysteria", () => {
   test("toList", () => {
     expect(
       toList(""),
