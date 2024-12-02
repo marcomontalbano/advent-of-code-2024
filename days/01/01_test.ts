@@ -1,4 +1,5 @@
-import { assertEquals } from "@std/assert";
+import { expect } from "@std/expect";
+import { describe, test } from "@std/testing/bdd";
 import { day1_part1, day1_part2, toList } from "../01/01.ts";
 
 const txtExample = Deno.readTextFileSync(
@@ -9,28 +10,29 @@ const txtInput = Deno.readTextFileSync(
   new URL("input.txt", import.meta.url),
 );
 
-Deno.test("toList", () => {
-  assertEquals(
-    toList(txtExample),
-    {
+describe("Day 1", () => {
+  test("toList", () => {
+    expect(
+      toList(txtExample),
+    ).toEqual({
       list1: [3, 4, 2, 1, 3, 3],
       list2: [4, 3, 5, 3, 9, 3],
-    },
-  );
-});
+    });
+  });
 
-Deno.test("Day 1 • Part 1 • Example", () => {
-  assertEquals(day1_part1(txtExample), 11);
-});
+  test("Part 1 • Example", () => {
+    expect(day1_part1(txtExample)).toEqual(11);
+  });
 
-Deno.test("Day 1 • Part 1", () => {
-  assertEquals(day1_part1(txtInput), 2430334);
-});
+  test("Part 1", () => {
+    expect(day1_part1(txtInput)).toEqual(2430334);
+  });
 
-Deno.test("Day 1 • Part 2 • Example", () => {
-  assertEquals(day1_part2(txtExample), 31);
-});
+  test("Part 2 • Example", () => {
+    expect(day1_part2(txtExample)).toEqual(31);
+  });
 
-Deno.test("Day 1 • Part 2", () => {
-  assertEquals(day1_part2(txtInput), 28786472);
+  test("Part 2", () => {
+    expect(day1_part2(txtInput)).toEqual(28786472);
+  });
 });
