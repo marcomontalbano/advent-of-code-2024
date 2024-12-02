@@ -1,6 +1,6 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
-import { analyzeReport, day2_part1, day2_part2, parseReports } from "./02.ts";
+import { analyzeReport, day2_part1, day2_part2, parseReports } from "./main.ts";
 
 const txtExample = Deno.readTextFileSync(
   new URL("example.txt", import.meta.url),

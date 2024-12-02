@@ -1,6 +1,6 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
-import { day1_part1, day1_part2, toList } from "../01/01.ts";
+import { day1_part1, day1_part2, toList } from "./main.ts";
 
 const txtExample = Deno.readTextFileSync(
   new URL("example.txt", import.meta.url),
@@ -12,6 +12,13 @@ const txtInput = Deno.readTextFileSync(
 
 describe("Day 1", () => {
   test("toList", () => {
+    expect(
+      toList(""),
+    ).toEqual({
+      list1: [],
+      list2: [],
+    });
+
     expect(
       toList(txtExample),
     ).toEqual({
