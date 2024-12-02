@@ -1,4 +1,4 @@
-# Advent of Code 2024 with Deno
+# Advent of Code 2024 in Deno
 
 Advent of Code is an
 [Advent calendar](https://en.wikipedia.org/wiki/Advent_calendar) of small
