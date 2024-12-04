@@ -1,6 +1,6 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
-import { parseProgram, runProgram } from "./main.ts";
+import { parseProgram, runProgram_part1, runProgram_part2 } from "./main.ts";
 
 const txtExample = Deno.readTextFileSync(
   new URL("example.txt", import.meta.url),
@@ -140,11 +140,21 @@ describe("Day 4: Ceres Search", () => {
 
   test("Part 1 • Example", () => {
     const input = parseProgram(txtExample);
-    expect(runProgram(input)).toEqual(18);
+    expect(runProgram_part1(input)).toEqual(18);
   });
 
   test("Part 1", () => {
     const input = parseProgram(txtInput);
-    expect(runProgram(input)).toEqual(2344);
+    expect(runProgram_part1(input)).toEqual(2344);
+  });
+
+  test("Part 2 • Example", () => {
+    const input = parseProgram(txtExample);
+    expect(runProgram_part2(input)).toEqual(9);
+  });
+
+  test("Part 2", () => {
+    const input = parseProgram(txtInput);
+    expect(runProgram_part2(input)).toEqual(1815);
   });
 });

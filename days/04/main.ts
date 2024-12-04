@@ -5,7 +5,7 @@ export function parseProgram(str: string): string[][] {
   return str.split("\n").map((line) => line.split(""));
 }
 
-export function findWord(
+function findWord(
   input: string[][],
   word: string,
   x: number,
@@ -18,7 +18,12 @@ export function findWord(
     const newY = y + i * dirY;
 
     if (
-      newX < 0 || newY < 0 || newX >= input.length || newY >= input[x].length
+      x >= input.length ||
+      y >= input.length ||
+      newX < 0 ||
+      newY < 0 ||
+      newX >= input.length ||
+      newY >= input[x].length
     ) {
       return 0;
     }
@@ -35,7 +40,7 @@ export function findWord(
   return 1;
 }
 
-export function runProgram(input: string[][]): number {
+export function runProgram_part1(input: string[][]): number {
   let counter = 0;
   const word = "XMAS";
 
@@ -52,6 +57,27 @@ export function runProgram(input: string[][]): number {
         findWord(input, word, x, y, 1, 1);
 
       counter += result;
+    }
+  }
+
+  return counter;
+}
+
+export function runProgram_part2(input: string[][]): number {
+  let counter = 0;
+  const word = "MAS";
+
+  for (let x = 0; x < input.length; x++) {
+    for (let y = 0; y < input[x].length; y++) {
+      const result = 0 +
+        findWord(input, word, x, y, 1, 1) +
+        findWord(input, word, x + 2, y, -1, 1) +
+        findWord(input, word, x, y + 2, 1, -1) +
+        findWord(input, word, x + 2, y + 2, -1, -1);
+
+      if (result >= 2) {
+        counter += 1;
+      }
     }
   }
 
