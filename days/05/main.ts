@@ -57,10 +57,54 @@ function sumPagesToProduce(pagesToProduce: string[]): number {
   }, 0);
 }
 
+export function getPageOrderMap(
+  pageOrderRules: string[],
+): Map<string, Set<string>> {
+  const pageOrderMap = new Map<string, Set<string>>();
+
+  pageOrderRules.forEach((rule) => {
+    const [page1, page2] = rule.split("|");
+    if (!pageOrderMap.has(page1)) {
+      pageOrderMap.set(page1, new Set());
+    }
+    pageOrderMap.get(page1)!.add(page2);
+  });
+
+  return pageOrderMap;
+}
+
+function reorderPages(
+  pageToProduce: string,
+  pageOrderMap: Map<string, Set<string>>,
+): string {
+  return pageToProduce
+    .split(",")
+    .sort((a, b) => {
+      if (pageOrderMap.get(a)?.has(b)) return -1;
+      if (pageOrderMap.get(b)?.has(a)) return 1;
+      return 0;
+    })
+    .join(",");
+}
+
 export function runProgram_part1(input: ProgramInput): number {
   const validPagesToProduce = input.pagesToProduce.filter((pageToProduce) =>
     isValidPageToProduce(pageToProduce, input.pageOrderRules)
   );
 
   return sumPagesToProduce(validPagesToProduce);
+}
+
+export function runProgram_part2(input: ProgramInput): number {
+  const invalidPagesToProduce = input.pagesToProduce.filter((pageToProduce) =>
+    !isValidPageToProduce(pageToProduce, input.pageOrderRules)
+  );
+
+  const pageOrderMap = getPageOrderMap(input.pageOrderRules);
+
+  const fixedPagesToProduce = invalidPagesToProduce.map((pageToProduce) =>
+    reorderPages(pageToProduce, pageOrderMap)
+  );
+
+  return sumPagesToProduce(fixedPagesToProduce);
 }

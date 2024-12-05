@@ -3,8 +3,10 @@ import { describe, test } from "@std/testing/bdd";
 import {
   check,
   filterValidPageOrderRules,
+  getPageOrderMap,
   parseProgram,
   runProgram_part1,
+  runProgram_part2,
 } from "./main.ts";
 
 const txtExample = Deno.readTextFileSync(
@@ -79,5 +81,74 @@ describe("Day 5: Print Queue", () => {
   test("Part 1", () => {
     const input = parseProgram(txtInput);
     expect(runProgram_part1(input)).toEqual(4790);
+  });
+
+  test("Part 2 • Example", () => {
+    const input = parseProgram(txtExample);
+    expect(getPageOrderMap(input.pageOrderRules)).toEqual(
+      new Map([
+        [
+          "47",
+          new Set([
+            "53",
+            "13",
+            "61",
+            "29",
+          ]),
+        ],
+        [
+          "97",
+          new Set([
+            "13",
+            "61",
+            "47",
+            "29",
+            "53",
+            "75",
+          ]),
+        ],
+        [
+          "75",
+          new Set([
+            "29",
+            "53",
+            "47",
+            "61",
+            "13",
+          ]),
+        ],
+        [
+          "61",
+          new Set([
+            "13",
+            "53",
+            "29",
+          ]),
+        ],
+        [
+          "29",
+          new Set([
+            "13",
+          ]),
+        ],
+        [
+          "53",
+          new Set([
+            "29",
+            "13",
+          ]),
+        ],
+      ]),
+    );
+  });
+
+  test("Part 2 • Example", () => {
+    const input = parseProgram(txtExample);
+    expect(runProgram_part2(input)).toEqual(123);
+  });
+
+  test("Part 2", () => {
+    const input = parseProgram(txtInput);
+    expect(runProgram_part2(input)).toEqual(6319);
   });
 });
