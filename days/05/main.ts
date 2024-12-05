@@ -36,20 +36,31 @@ export function filterValidPageOrderRules(
   return validPageOrderRules;
 }
 
-export function runProgram_part1(input: ProgramInput): number {
-  const validPagesToProduct = input.pagesToProduce.filter((pageToProduce) => {
-    const validPageOrderRules = filterValidPageOrderRules(
-      input.pageOrderRules,
-      pageToProduce,
-    );
+function isValidPageToProduce(
+  pageToProduce: string,
+  pageOrderRules: string[],
+): boolean {
+  const validPageOrderRules = filterValidPageOrderRules(
+    pageOrderRules,
+    pageToProduce,
+  );
 
-    return validPageOrderRules.every((pageOrderRule) =>
-      check(pageOrderRule, pageToProduce)
-    );
-  });
+  return validPageOrderRules.every((pageOrderRule) =>
+    check(pageOrderRule, pageToProduce)
+  );
+}
 
-  return validPagesToProduct.reduce<number>((sum, pageToProduce) => {
+function sumPagesToProduce(pagesToProduce: string[]): number {
+  return pagesToProduce.reduce<number>((sum, pageToProduce) => {
     const pages = pageToProduce.split(",");
     return sum + parseInt(pages[Math.floor(pages.length / 2)]);
   }, 0);
+}
+
+export function runProgram_part1(input: ProgramInput): number {
+  const validPagesToProduce = input.pagesToProduce.filter((pageToProduce) =>
+    isValidPageToProduce(pageToProduce, input.pageOrderRules)
+  );
+
+  return sumPagesToProduce(validPagesToProduce);
 }
