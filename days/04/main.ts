@@ -1,8 +1,10 @@
 // Day 4: Ceres Search
 // https://adventofcode.com/2024/day/4
 
+import { asMatrix } from "../../utils/asMatrix.ts";
+
 export function parseProgram(str: string): string[][] {
-  return str.split("\n").map((line) => line.split(""));
+  return asMatrix(str);
 }
 
 function findWord(
