@@ -1,6 +1,6 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
-import { parseProgram, runProgram_part1 } from "./main.ts";
+import { parseProgram, runProgram_part1, runProgram_part2 } from "./main.ts";
 
 const txtExample = Deno.readTextFileSync(
   new URL("example.txt", import.meta.url),
@@ -31,5 +31,13 @@ describe("Day 7: Bridge Repair", () => {
 
   test("Part 1", () => {
     expect(runProgram_part1(txtInput)).toEqual(20665830408335);
+  });
+
+  test("Part 2 • Example", () => {
+    expect(runProgram_part2(txtExample)).toEqual(11387);
+  });
+
+  test("Part 2", () => {
+    expect(runProgram_part2(txtInput)).toEqual(354060705047464);
   });
 });

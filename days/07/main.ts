@@ -13,10 +13,11 @@ export function parseProgram(
   });
 }
 
-type Signs = Array<"+" | "*">;
+type Signs = Array<"+" | "*" | "||">;
 
 export function matchResult(
   input: ReturnType<typeof parseProgram>[number],
+  signs: Signs,
 ): boolean {
   const { result, numbers } = input;
 
@@ -28,6 +29,8 @@ export function matchResult(
           return acc + num;
         case "*":
           return acc * num;
+        case "||":
+          return parseInt(`${acc}${num}`);
         default:
           throw new Error("Invalid sign");
       }
@@ -35,7 +38,6 @@ export function matchResult(
   }
 
   function generateSignCombinations(length: number): Signs[] {
-    const signs: Signs = ["+", "*"];
     const combinations: Signs[] = [];
     const totalCombinations = Math.pow(signs.length, length);
 
@@ -63,7 +65,21 @@ export function runProgram_part1(str: string): number {
   const program = parseProgram(str);
 
   return program
-    .filter(matchResult)
+    .filter((input) => {
+      return matchResult(input, ["+", "*"]);
+    })
+    .reduce((acc, cv) => {
+      return acc + cv.result;
+    }, 0);
+}
+
+export function runProgram_part2(str: string): number {
+  const program = parseProgram(str);
+
+  return program
+    .filter((input) => {
+      return matchResult(input, ["+", "*", "||"]);
+    })
     .reduce((acc, cv) => {
       return acc + cv.result;
     }, 0);

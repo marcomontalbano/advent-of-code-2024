@@ -30,8 +30,8 @@ describe("Day 6: Guard Gallivant", () => {
     expect(runProgram_part2(txtExample)).toEqual(6);
   });
 
-  // // it takes ~20 seconds to run the program
-  // test("Part 2", () => {
-  //   expect(runProgram_part2(txtInput)).toEqual(1976);
-  // });
+  // it takes ~20 seconds to run the program
+  test("Part 2", () => {
+    expect(runProgram_part2(txtInput)).toEqual(1976);
+  });
 });
