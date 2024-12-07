@@ -36,7 +36,6 @@ function turnRight(direction: string): string {
 
 export function runSimulation(str: string) {
   const guardMap = asMatrix(str);
-  let continuing = true;
   let { rowIndex, colIndex } = findGuard(str);
   let direction = guardMap[rowIndex][colIndex];
   let { rowDirection, colDirection } = getDirection(
@@ -44,12 +43,11 @@ export function runSimulation(str: string) {
   );
 
   const store = {
-    path: new Map([[`${rowIndex},${colIndex}`, 1]]),
+    path: new Map([[`${rowIndex},${colIndex}`, new Set([direction])]]),
     infinite: false,
   };
 
   while (
-    continuing &&
     rowIndex + rowDirection !== -1 &&
     colIndex + colDirection !== -1 &&
     rowIndex + rowDirection < guardMap.length &&
@@ -63,14 +61,17 @@ export function runSimulation(str: string) {
       colIndex += colDirection;
     }
 
-    const counter = (store.path.get(`${rowIndex},${colIndex}`) || 0) + 1;
+    const storedDirection = store.path.get(`${rowIndex},${colIndex}`);
 
-    store.path.set(`${rowIndex},${colIndex}`, counter);
-
-    if (counter > 1_000) {
+    if (Array.from(storedDirection?.values() ?? []).includes(direction)) {
       store.infinite = true;
-      continuing = false;
+      break;
     }
+
+    store.path.set(
+      `${rowIndex},${colIndex}`,
+      (storedDirection ?? new Set()).add(direction),
+    );
   }
 
   return store;
