@@ -69,3 +69,32 @@ export function runProgram_part1(str: string): number {
 
   return antinodes.size;
 }
+
+// https://www.cuemath.com/geometry/collinear-points/
+export function areCollinear(p1: Point, p2: Point, p3: Point): boolean {
+  return p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y) ===
+    0;
+}
+
+export function runProgram_part2(str: string): number {
+  const program = parseProgram(str);
+  const antennas = findAntennas(program);
+  const antinodes = new Set<string>();
+
+  for (const points of antennas.values()) {
+    for (let y = 0; y < program.length; y++) {
+      for (let x = 0; x < program[0].length; x++) {
+        for (let i = 0; i < points.length; i++) {
+          for (let j = i + 1; j < points.length; j++) {
+            if (areCollinear({ x, y }, points[i], points[j])) {
+              antinodes.add(`${x},${y}`);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return antinodes.size;
+}

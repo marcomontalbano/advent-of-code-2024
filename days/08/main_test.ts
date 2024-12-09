@@ -1,6 +1,12 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
-import { calculateAntinodes, findAntennas, runProgram_part1 } from "./main.ts";
+import {
+  areCollinear,
+  calculateAntinodes,
+  findAntennas,
+  runProgram_part1,
+  runProgram_part2,
+} from "./main.ts";
 import { asMatrix } from "../../utils/asMatrix.ts";
 
 const txtExample = Deno.readTextFileSync(
@@ -54,5 +60,27 @@ describe("Day 8: Resonant Collinearity", () => {
 
   test("Part 1", () => {
     expect(runProgram_part1(txtInput)).toEqual(318);
+  });
+
+  test("areCollinear", () => {
+    expect(areCollinear({ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }))
+      .toEqual(true);
+
+    expect(areCollinear({ x: 1, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 4 }))
+      .toEqual(true);
+
+    expect(areCollinear({ x: -3, y: -1 }, { x: -1, y: 0 }, { x: 1, y: 1 }))
+      .toEqual(true);
+
+    expect(areCollinear({ x: 8, y: 11 }, { x: 2, y: 3 }, { x: -1, y: -1 }))
+      .toEqual(true);
+  });
+
+  test("Part 2 • Example", () => {
+    expect(runProgram_part2(txtExample)).toEqual(34);
+  });
+
+  test("Part 2", () => {
+    expect(runProgram_part2(txtInput)).toEqual(1126);
   });
 });
