@@ -32,11 +32,12 @@ export function toDenseFormat(diskMap: DiskMap): Disk {
   return result;
 }
 
-export function compact(disk: Disk): Disk {
+export function compact_part1(disk: Disk): Disk {
   for (let rightmostPos = disk.length - 1; rightmostPos > 0; rightmostPos--) {
     if (disk[rightmostPos] === ".") {
       continue;
     }
+
     const leftmostPos = disk.indexOf(".");
     if (leftmostPos < rightmostPos) {
       disk[leftmostPos] = disk[rightmostPos];
@@ -47,16 +48,56 @@ export function compact(disk: Disk): Disk {
   return disk;
 }
 
-export function runProgram_part1(str: string): number {
-  const numbers = parseInput(str);
-  const initialMap = toDenseFormat(numbers);
-  const compacted = compact(initialMap);
+export function compact_part2(disk: Disk): Disk {
+  for (let rightmostPos = disk.length - 1; rightmostPos > 0; rightmostPos--) {
+    if (disk[rightmostPos] === ".") {
+      continue;
+    }
 
-  return compacted.reduce((checksum: number, block, position) => {
+    const currentNumber = disk[rightmostPos];
+    const currentNumberFirstOccurrence = disk.indexOf(currentNumber);
+    const length = disk.filter((val) => val === currentNumber).length;
+    const leftmostPos = disk.map((x) => x === "." ? x : "n").join("").indexOf(
+      ".".repeat(length),
+    );
+
+    if (leftmostPos < rightmostPos && leftmostPos !== -1) {
+      disk.splice(
+        leftmostPos,
+        length,
+        ...newArray(length, currentNumber),
+      );
+      disk.splice(
+        currentNumberFirstOccurrence,
+        length,
+        ...newArray(length, "."),
+      );
+    }
+  }
+
+  return disk;
+}
+
+function calculateChecksumFromDiskArray(disk: Disk): number {
+  return disk.reduce((checksum: number, block, position) => {
     if (block === ".") {
       return checksum;
     }
 
     return checksum + (typeof block === "number" ? block * position : 0);
   }, 0);
+}
+
+export function runProgram_part1(str: string): number {
+  const numbers = parseInput(str);
+  const initialMap = toDenseFormat(numbers);
+  const compacted = compact_part1(initialMap);
+  return calculateChecksumFromDiskArray(compacted);
+}
+
+export function runProgram_part2(str: string): number {
+  const numbers = parseInput(str);
+  const initialMap = toDenseFormat(numbers);
+  const compacted = compact_part2(initialMap);
+  return calculateChecksumFromDiskArray(compacted);
 }

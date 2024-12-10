@@ -1,12 +1,14 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
 import {
+  compact_part2,
   newArray,
   parseInput,
   runProgram_part1,
+  runProgram_part2,
   toDenseFormat,
 } from "./main.ts";
-import { compact } from "./main.ts";
+import { compact_part1 } from "./main.ts";
 
 const txtExample = Deno.readTextFileSync(
   new URL("example.txt", import.meta.url),
@@ -101,14 +103,14 @@ describe("Day 9: Disk Fragmenter", () => {
     );
   });
 
-  test("compact", () => {
-    expect(compact(toDenseFormat([1, 2, 3, 4, 5]))).toEqual(
+  test("Part 1 • compact", () => {
+    expect(compact_part1(toDenseFormat([1, 2, 3, 4, 5]))).toEqual(
       [0, 2, 2, 1, 1, 1, 2, 2, 2, ".", ".", ".", ".", ".", "."],
     );
 
     const diskMap = parseInput(txtExample);
     const denseFormat = toDenseFormat(diskMap);
-    expect(compact(denseFormat)).toEqual(
+    expect(compact_part1(denseFormat)).toEqual(
       [
         0,
         0,
@@ -156,11 +158,70 @@ describe("Day 9: Disk Fragmenter", () => {
     );
   });
 
+  test("Part 2 • compact", () => {
+    const diskMap = parseInput(txtExample);
+    const denseFormat = toDenseFormat(diskMap);
+    expect(compact_part2(denseFormat)).toEqual(
+      [
+        0,
+        0,
+        9,
+        9,
+        2,
+        1,
+        1,
+        1,
+        7,
+        7,
+        7,
+        ".",
+        4,
+        4,
+        ".",
+        3,
+        3,
+        3,
+        ".",
+        ".",
+        ".",
+        ".",
+        5,
+        5,
+        5,
+        5,
+        ".",
+        6,
+        6,
+        6,
+        6,
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        8,
+        8,
+        8,
+        8,
+        ".",
+        ".",
+      ],
+    );
+  });
+
   test("Part 1 • Example", () => {
     expect(runProgram_part1(txtExample)).toEqual(1928);
   });
 
   test("Part 1", () => {
     expect(runProgram_part1(txtInput)).toEqual(6337921897505);
+  });
+
+  test("Part 2 • Example", () => {
+    expect(runProgram_part2(txtExample)).toEqual(2858);
+  });
+
+  test("Part 2", () => {
+    expect(runProgram_part2(txtInput)).toEqual(6362722604045);
   });
 });
