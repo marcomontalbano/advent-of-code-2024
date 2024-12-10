@@ -52,3 +52,11 @@ export function runProgram_part1(input: string): number {
     .map((zero) => countUnique(hike(matrix, zero)))
     .reduce((total, value) => total + value, 0);
 }
+
+export function runProgram_part2(input: string): number {
+  const matrix = asMatrix(input, Number);
+  const zeros = findZeros(matrix);
+  return zeros
+    .map((zero) => hike(matrix, zero).length)
+    .reduce((total, value) => total + value, 0);
+}

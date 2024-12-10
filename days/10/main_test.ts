@@ -1,6 +1,6 @@
 import { expect } from "@std/expect";
 import { describe, test } from "@std/testing/bdd";
-import { findZeros, hike, runProgram_part1 } from "./main.ts";
+import { findZeros, hike, runProgram_part1, runProgram_part2 } from "./main.ts";
 import { asMatrix } from "../../utils/asMatrix.ts";
 
 const txtExample = Deno.readTextFileSync(
@@ -65,5 +65,13 @@ describe("Day 10: Hoof It", () => {
 
   test("Part 1", () => {
     expect(runProgram_part1(txtInput)).toEqual(717);
+  });
+
+  test("Part 2 • Example", () => {
+    expect(runProgram_part2(txtExample)).toEqual(81);
+  });
+
+  test("Part 2", () => {
+    expect(runProgram_part2(txtInput)).toEqual(1686);
   });
 });
