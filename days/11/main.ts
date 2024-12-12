@@ -5,32 +5,48 @@ export function parseProgram(str: string): number[] {
   return str.split(" ").map(Number);
 }
 
-export function blink(stones: number[], times: number = 1): number[] {
+export function blinkStone(stone: number): number[] {
+  if (stone === 0) {
+    return [1];
+  }
+
+  const stoneAsString = stone.toString(10);
+  if (stoneAsString.length % 2 === 0) {
+    return [
+      Number(stoneAsString.slice(0, stoneAsString.length / 2)),
+      Number(stoneAsString.slice(stoneAsString.length / 2)),
+    ];
+  }
+
+  return [stone * 2024];
+}
+
+export function blink(stones: number[], times: number): number[] {
   if (times > 1) {
-    return blink(blink(stones), times - 1);
+    return blink(blink(stones, 1), times - 1);
   }
 
   return stones.reduce<number[]>((acc, stone) => {
-    if (stone === 0) {
-      acc.push(1);
-      return acc;
-    }
-
-    if (stone.toString(10).length % 2 === 0) {
-      acc.push(
-        Number(stone.toString(10).slice(0, stone.toString(10).length / 2)),
-      );
-      acc.push(Number(stone.toString(10).slice(stone.toString(10).length / 2)));
-      return acc;
-    }
-
-    acc.push(stone * 2024);
+    acc.push(...blinkStone(stone));
     return acc;
   }, []);
 }
 
+export function count(
+  stones: number[],
+  times: number,
+  memo: number = 0,
+): number {
+  if (times <= 0) {
+    return stones.length;
+  }
+
+  return stones.reduce((acc, stone) => {
+    return acc + count(blinkStone(stone), times - 1, memo);
+  }, memo);
+}
+
 export function runProgram_part1(input: string): number {
   const stones = parseProgram(input);
-  const result = blink(stones, 25);
-  return result.length;
+  return count(stones, 25);
 }
