@@ -46,7 +46,66 @@ export function count(
   }, memo);
 }
 
+export function fasterBlink(stones: Record<number, number>) {
+  const newStones: Record<number, number> = {};
+
+  for (const [stone, counter] of Object.entries(stones)) {
+    if (Number(stone) === 0) {
+      newStones[1] = stones[0];
+      continue;
+    }
+
+    if (stone.length % 2 === 0) {
+      const half = stone.length / 2;
+      [
+        stone.substring(0, half),
+        stone.substring(half),
+      ]
+        .map(Number)
+        .forEach(
+          (half) => {
+            if (newStones[half] == null) {
+              newStones[half] = 0;
+            }
+
+            newStones[half] += counter;
+          },
+        );
+
+      continue;
+    }
+
+    newStones[Number(stone) * 2024] = counter;
+  }
+
+  return newStones;
+}
+
+export function fasterCount(
+  initialStones: number[],
+  times: number,
+): number {
+  let stones: Record<number, number> = {};
+
+  initialStones.forEach((stone) => {
+    stones[stone] ? stones[stone]++ : stones[stone] = 1;
+  });
+
+  for (let i = 0; i < times; i++) {
+    stones = fasterBlink(stones);
+  }
+
+  return Object
+    .values(stones)
+    .reduce((acc, val) => acc + val, 0);
+}
+
 export function runProgram_part1(input: string): number {
   const stones = parseProgram(input);
   return count(stones, 25);
+}
+
+export function runProgram_part2(input: string): number {
+  const stones = parseProgram(input);
+  return fasterCount(stones, 75);
 }

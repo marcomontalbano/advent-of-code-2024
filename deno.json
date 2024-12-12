@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "dev": "deno test --watch --allow-read"
+    "dev": "deno test --watch --allow-read",
+    "bench": "deno bench --allow-read"
   },
   "imports": {
     "@std/testing": "jsr:@std/testing@1",
